@@ -1,9 +1,9 @@
 const names= ['Noah', 'Liam', 'Mason', 'Jacob', 'Robot', 'William', 'Ethan', 'Michael', 'Alexander'];
 let newNames = [];
 
-const addPrefix = (x) => {
+const addPrefix = (i) => {
     for (elem of names) {
-        newNames = newNames.concat(x + ' ' + elem);
+        newNames = newNames.concat(i + ' ' + elem);
     }
 }
 
