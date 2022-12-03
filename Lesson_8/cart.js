@@ -5,7 +5,7 @@ const cart = {
     totalPrice: 0,
     count: 0,
     getTotalPrice() {
-        return this.totalPrice;
+        return this.calculateItemPrice();
     },
     add(item, price, n = 1) {
         this.items.push(item);
@@ -16,7 +16,7 @@ const cart = {
         return this.count = this.count + n;
     },
     calculateItemPrice() {
-
+        return this.totalPrice;
     },
     clear() {
         this.items = [];
@@ -30,10 +30,9 @@ const cart = {
 };
 
 
-
-
 cart.add('samsung', 30000, 5);
 cart.add('nokia', 17000, 2);
 cart.add('ihone', 50000, 3);
 
 cart.print();
+
