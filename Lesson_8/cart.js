@@ -5,18 +5,20 @@ const cart = {
     totalPrice: 0,
     count: 0,
     getTotalPrice() {
-        return this.calculateItemPrice();
+        return this.totalPrice;
     },
     add(item, price, n = 1) {
         this.items.push(item);
-        this.totalPrice = this.totalPrice + price;
+        this.totalPrice = this.totalPrice + (price * n);
         this.count = this.count + n;
     }, 
     increaseCount(n) {
         return this.count = this.count + n;
     },
     calculateItemPrice() {
-        return this.totalPrice;
+        return this.totalPrice = this.items.reduce((sum, count) => {
+            sum * count;
+        }, 0);
     },
     clear() {
         this.items = [];
@@ -25,7 +27,7 @@ const cart = {
     },
     print() {
         console.log(JSON.stringify(this.items));
-        console.log(this.totalPrice * this.count);
+        console.log(this.totalPrice);
     },
 };
 
@@ -35,4 +37,3 @@ cart.add('nokia', 17000, 2);
 cart.add('ihone', 50000, 3);
 
 cart.print();
-
