@@ -1,66 +1,66 @@
 'use strict';
 
 (() => {
-  const FIGURES_END = ['rock', 'scissors', 'papper'];
-  const FIGURES_RU = ['камень', 'ножницы', 'бумага'];
+  const FIGURES_RU = ['камень', 'ножницы', 'бумага', 'отмена'];
 
-
-  const getRandomIntInclusive = () => Math.random();
-
-
-  const getFigure = lang => {
-
-  };
-
-  const game = (language) => {
+  const game = () => {
     const result = {
       player: 0,
       computer: 0,
+      draw: 0,
     };
 
-    const compNumFoo = (x) => {
-      let compNum = x;
-      if (compNum < 0.34) {
-        compNum = 'камень';
-        return compNum;
-      } else if (compNum < 0.68) {
-        compNum = 'бумага';
-        return compNum;
-      } else {
-        compNum = 'ножницы';
-        return compNum;
-      }
+
+    const getRandomInt = (min, max) => {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    };
+
+
+    const filterItems = (arr, query) => {
+      return arr.filter(el => el.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     };
 
 
     return function start() {
-      const humanNum = prompt('Камень, ножницы или бумага?');
-      const check = (human, comp) => {
-        if (human !== null) {
-          if (human === 'камень' && comp === 'камень' || human === 'бумага' && comp === 'бумага' || human === 'ножницы' && comp === 'ножницы') {
-            alert('Ничья');
-            start();
-          } else if (human === 'камень' && comp === 'ножницы' || human === 'бумага' && comp === 'камень' || human === 'ножницы' && comp === 'бумага') {
-            result.player += 1;
-            alert('Победа игрока');
-            start();
-          } else {
-            result.computer += 1;
-            alert('Победа Компьютера');
-            start();
-          }
-        } else {
-          human = prompt('Точно выходим?');
-          if (human !== null) {
-            check(human, comp);
-          } else {
-            alert('До скорой встречи!');
-            alert(`Вы победили ${result.player} \nКомпьютер победил ${result.computer}`);
-          }
-        }
-      };
+      const computerChoice = FIGURES_RU[getRandomInt(0, 3)];
+      console.log('computerChoice: ', computerChoice);
 
-      check(humanNum, compNumFoo(getRandomIntInclusive()));
+      let player = prompt('Камень ножницы или бумага?');
+      let surrender;
+      if (player === null) {
+        player = 'отмена';
+        surrender = confirm('точно сдаться?');
+      }
+
+      const playerChoice = filterItems(FIGURES_RU, player).join();
+      console.log('playerChoice: ', playerChoice);
+
+      switch (true) {
+        case surrender === true:
+          console.log(`
+          Игрок победил ${result.player}
+          Компьютер победил ${result.computer}
+          Ничья ${result.draw}`);
+          break;
+        case playerChoice === computerChoice:
+          console.log('Ничья');
+          result.draw += 1;
+          start();
+          break;
+        case playerChoice === 'камень' && computerChoice === 'ножницы':
+        case playerChoice === 'ножницы' && computerChoice === 'бумага':
+        case playerChoice === 'бумага' && computerChoice === 'камень':
+          console.log('Победа игрока!');
+          result.player += 1;
+          start();
+          break;
+        default:
+          console.log('Победа компьютера!');
+          result.computer += 1;
+          start();
+      }
     };
   };
 
